@@ -24,7 +24,7 @@ class Parcela {
 	}
 
 	method plantar(planta) {
-		if (plantas.size() >= self.cantidadMaxDePlantasToleradas() or (planta.horasDeSolToleradas() - horasDeSolXDia) >= 2) {
+		if (plantas.size() >= self.cantidadMaxDePlantasToleradas() or (horasDeSolXDia - planta.horasDeSolToleradas()) >= 2) {
 			self.error("Se llego al limite de plantas en esta parcela")
 		} else {
 			plantas.add(planta)
@@ -76,7 +76,7 @@ object inta {
 	}
 
 	method masAutosustentable() {
-		return self.mayorA4Plantadas().max({ parcela => parcela.porcentajeAsociadas() })
+		return self.mayorA4Plantadas().max({ parcela => parcela.porcentajeDeAsociadas() })
 	}
 
 	method mayorA4Plantadas() {

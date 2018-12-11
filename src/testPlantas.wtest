@@ -5,22 +5,31 @@ describe "Plantas" {
 
 	var mentita = new Menta(altura = 1, anioObtencion = 2009)
 	var soji = new Soja(altura = 0.7, anioObtencion = 2005)
-	var sojita = new Soja (altura = 0.3, anioObtencion = 2018)
-	var quino = new Quinoa(altura = 1.5, anioObtencion = 2000, horasDeSolToleradas = 6)
+	var sojita = new Soja(altura = 0.3, anioObtencion = 2018)
+	var quino = new Quinoa(altura = 1.5, anioObtencion = 2000, horasDeSolToleradas = 10)
 	var sojaTrans = new SojaTransjenica(altura = 2.5, anioObtencion = 2000)
 	var sojaT2 = new SojaTransjenica(altura = 0.5, anioObtencion = 2000)
 	var par1 = new Ecologica(ancho = 3, largo = 3, horasDeSolXDia = 8)
-	var par2 = new Industrial(ancho = 5, largo = 3, horasDeSolXDia = 6)
+	var par2 = new Industrial(ancho = 5, largo = 5, horasDeSolXDia = 6)
+	var par3 = new Ecologica(ancho = 5, largo = 5, horasDeSolXDia = 6)
 
 	fixture {
 		par1.plantar(sojaTrans)
 		par2.plantar(soji)
-		par2.plantar(quino)
 		par2.plantar(mentita)
 		par2.plantar(sojaT2)
 		par2.plantar(sojita)
+		par3.plantar(quino)
+		par3.plantar(sojita)
+		par3.plantar(mentita)
+		par3.plantar(sojaTrans)
+		par3.plantar(sojaT2)
 		inta.agregarParcela(par1)
 		inta.agregarParcela(par2)
+		inta.agregarParcela(par3)
+	}
+	test "prueba Quino"{
+		assert.equals(5,par3.cantidadPlantadas())
 	}
 
 	test "dan Nuevas Semillas" {
@@ -28,6 +37,14 @@ describe "Plantas" {
 		assert.notThat(soji.daNuevasSemillas())
 		assert.that(quino.daNuevasSemillas())
 		assert.notThat(sojaTrans.daNuevasSemillas())
+	}
+
+	test "Horas de Sol toleradas por Sojita" {
+		assert.equals(6, sojita.horasDeSolToleradas())
+	}
+
+	test "espacio queOcupa Soji" {
+		assert.equals(0.35, soji.espacioQueOcupa())
 	}
 
 	test " Parcelas Ideales" {
@@ -43,11 +60,19 @@ describe "Plantas" {
 	}
 
 	test "Inta promedioDePlantasXParcela " {
-		assert.equals(3, inta.promedioDePlantasXParcela())
-		
+		assert.equals(3.33333, inta.promedioDePlantasXParcela())
 	}
-	test " par2 tiene mas de 4 plantas en Inta"{
-		assert.equals(par2, inta.mayorA4Plantadas() )
+
+	test " parcela autosustentable en inta" {
+		assert.equals(par2, inta.masAutosustentable())
+	}
+
+	test " par3 tiene mas de 4 plantas en Inta" {
+		assert.equals(#{ par3}, inta.mayorA4Plantadas())
+	}
+
+	test "cantidad tolerada por part1" {
+		assert.equals(6, par1.cantidadMaxDePlantasToleradas())
 	}
 
 }
