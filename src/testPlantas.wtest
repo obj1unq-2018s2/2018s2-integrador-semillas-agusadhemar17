@@ -1,0 +1,54 @@
+import plantas.*
+import parcelas.*
+
+describe "Plantas" {
+
+	var mentita = new Menta(altura = 1, anioObtencion = 2009)
+	var soji = new Soja(altura = 0.7, anioObtencion = 2005)
+	var sojita = new Soja (altura = 0.3, anioObtencion = 2018)
+	var quino = new Quinoa(altura = 1.5, anioObtencion = 2000, horasDeSolToleradas = 6)
+	var sojaTrans = new SojaTransjenica(altura = 2.5, anioObtencion = 2000)
+	var sojaT2 = new SojaTransjenica(altura = 0.5, anioObtencion = 2000)
+	var par1 = new Ecologica(ancho = 3, largo = 3, horasDeSolXDia = 8)
+	var par2 = new Industrial(ancho = 5, largo = 3, horasDeSolXDia = 6)
+
+	fixture {
+		par1.plantar(sojaTrans)
+		par2.plantar(soji)
+		par2.plantar(quino)
+		par2.plantar(mentita)
+		par2.plantar(sojaT2)
+		par2.plantar(sojita)
+		inta.agregarParcela(par1)
+		inta.agregarParcela(par2)
+	}
+
+	test "dan Nuevas Semillas" {
+		assert.notThat(mentita.daNuevasSemillas())
+		assert.notThat(soji.daNuevasSemillas())
+		assert.that(quino.daNuevasSemillas())
+		assert.notThat(sojaTrans.daNuevasSemillas())
+	}
+
+	test " Parcelas Ideales" {
+		assert.notThat(sojaT2.esIdeal(par1))
+	}
+
+	test "tiene Complicaciones" {
+		assert.notThat(par1.tieneComplicaciones())
+	}
+
+	test "mentita se Asocia bien a Par1" {
+		assert.that(par1.seAsociaBien(mentita))
+	}
+
+	test "Inta promedioDePlantasXParcela " {
+		assert.equals(3, inta.promedioDePlantasXParcela())
+		
+	}
+	test " par2 tiene mas de 4 plantas en Inta"{
+		assert.equals(par2, inta.mayorA4Plantadas() )
+	}
+
+}
+
